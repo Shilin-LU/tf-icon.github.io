@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://shilin-lu.github.io/tf-icon/sitemap.xml
+Sitemap: https://tf-icon.github.io/sitemap.xml
