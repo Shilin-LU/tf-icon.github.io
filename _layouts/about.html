@@ -131,7 +131,15 @@
       the inversion process is prone to significant reconstruction errors, due to the instability induced by Classifier-Free Guidance (CFG). 
       Our experiments further reveal that even without CFG, the unconditional output of text-driven diffusion models still produce large reconstruction errors. <br><br>
       <img class="summary-img" src="./tficon/inversion1_for_projpage.png" style="width:95%;">
-      <br> The invertibility of diffusion models is provided by deterministic sampling. By modeling the diffusion process as a Stochastic Differential Equation (SDE), 
+      <br> 
+      Two points require attention. Firstly, CFG typically amplifies instability, resulting in subpar inversion, 
+      while satisfactory reconstruction from CFG output is still possible, albeit less common. 
+      Secondly, the unconditional output does not necessarily outperform CFG or conditional one, as the unconditional/null prompt contains special symbols, 
+      which also add information and lead to inconsistent directional shifts in image embeddings.
+      Thus, the unconditional output may perform poorly than others. Figure above shows unconditional (1st row), 
+      conditional (2nd row), or CFG (3rd row) output can yield the best reconstruction among them. <br> <br> 
+      
+      The invertibility of diffusion models is provided by deterministic sampling. By modeling the diffusion process as a Stochastic Differential Equation (SDE), 
       we can readily identify the associated Probability Flow Ordinary Differential Equation (PF ODE) that shares the same marginal probability density as the original SDE. 
       The connection between their corresponding Partial Differential Equations (which describe the dynamics of their marginal distribution), namely the 
       <a href="https://en.wikipedia.org/wiki/Fokker%E2%80%93Planck_equation" style="text-decoration: none; color: rgb(212, 65, 114);">Fokker-Planck Equation</a> and 
@@ -139,7 +147,7 @@
       The resulting PF ODE can be solved deterministically and with higher accuracy. <br> <br> 
       
       The CFG disrupts the alignment between the forward and backward ODE trajectories, primarily due to the inclusion of additional information 
-      (please refer to <a href="./tficon/tficon.pdf" style="text-decoration: none; color: rgb(212, 65, 114);">Section A.2 of the paper</a> for more details)   
+      (please refer to <a href="./tficon/tficon.pdf" style="text-decoration: none; color: rgb(212, 65, 114);">Section A.2 of the paper</a> for more details).    
       Intuitively, any information contained within the input prompt can result in the deviation of the backward ODE trajectories from the forward trajectories. 
       To achieve accurate inversion, we present a straightforward yet effective solution, namely <i>exceptional prompt</i>. 
       We remove all information by setting all token numbers to a common value and eliminating positional embeddings for the text prompt. Note that the exceptional prompt is distinguished from the null prompt by its absence of special tokens, 
